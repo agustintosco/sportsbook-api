@@ -40,4 +40,12 @@ export class UserService {
     });
     return foundUser.password;
   }
+
+  async setBalance(userId: number, amount: number) {
+    let user: User = await this.userRepository.findOne(userId);
+
+    user.setBalance(amount);
+
+    await this.userRepository.save(user);
+  }
 }
