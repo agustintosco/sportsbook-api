@@ -65,7 +65,7 @@ export class Bet {
   @JoinColumn({ name: 'bet_option_id' })
   betOption: BetOption;
 
-  getAmount(): number {
-    return this.amount;
+  setStatus(status: BetStatus): void {
+    this.status = status;
   }
 }
