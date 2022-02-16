@@ -153,4 +153,8 @@ export class User {
     default: null,
   })
   deletedAt: Date;
+
+  public setBalance(amount: number): void {
+    this.balance = amount;
+  }
 }

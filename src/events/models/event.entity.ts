@@ -55,4 +55,8 @@ export class Event {
 
   @OneToMany(() => BetOption, (betOption) => betOption.event, { eager: true })
   betOptions: BetOption[];
+
+  hasStarted(): boolean {
+    return this.started ? true : false;
+  }
 }

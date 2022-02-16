@@ -34,6 +34,7 @@ export class Bet {
     name: 'status',
     type: 'enum',
     enum: BetStatus,
+    default: BetStatus.ACTIVE,
   })
   status: BetStatus;
 
@@ -64,7 +65,7 @@ export class Bet {
   @JoinColumn({ name: 'bet_option_id' })
   betOption: BetOption;
 
-  public getAmount(): number {
+  getAmount(): number {
     return this.amount;
   }
 }
