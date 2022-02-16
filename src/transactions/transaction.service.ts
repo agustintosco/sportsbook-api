@@ -1,20 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { TransactionType } from './models/transaction-type.enum';
-import { Transaction } from './models/transaction.entity';
 import {
   paginate,
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
+import { OnEvent } from '@nestjs/event-emitter';
+
+import { TransactionType } from './models/transaction-type.enum';
+import { Transaction } from './models/transaction.entity';
 import { Bet } from './models/bet.entity';
 import { BetStatus } from './models/bet-status.enum';
 import { BetOption } from './../events/models/bet-option.entity';
+import { BetResult } from 'src/events/models/bet-option-result.enum';
+import { UserService } from 'src/users/user.service';
 
 @Injectable()
 export class TransactionService {
   constructor(
+    private userService: UserService,
     @InjectRepository(Transaction)
     private transactionsRepository: Repository<Transaction>,
     @InjectRepository(Bet)
@@ -30,14 +35,6 @@ export class TransactionService {
   ): Promise<Pagination<Transaction>> {
     let transactions =
       this.transactionsRepository.createQueryBuilder('transactions');
-
-    if (userId) {
-      transactions.where('user_id = :userId', { userId });
-    }
-
-    if (eventId) {
-      transactions.where('event = :eventId', { eventId });
-    }
 
     if (type) {
       transactions.andWhere(`transactions.type = :type`, { type: type });
@@ -141,5 +138,49 @@ export class TransactionService {
     const balance: number = await this.calculateBalance(userId);
 
     return balance - amount >= 0 ? true : false;
+  }
+
+  /**
+   *    EVENTS
+   */
+
+  @OnEvent('bet-option.result-set')
+  async handleBetOptionResult(betOption: BetOption): Promise<void> {
+    const bets = await this.betRepository.createQueryBuilder();
+    bets.where({ betOption: betOption.id });
+    let allBets: Bet[] = await bets.getMany();
+
+    /**
+     *  Filter to get only ACTIVE bets
+     */
+
+    let betsToUpdate = allBets.filter((bet) => bet.status == BetStatus.ACTIVE);
+
+    /**
+     *
+     */
+
+    for (let i = 0; i < betsToUpdate.length; i++) {
+      betsToUpdate[i].setStatus(BetStatus.SETTLED);
+    }
+
+    if (betOption.result == BetResult.WON) {
+      const odd = betOption.odd;
+
+      for (let i = 0; i < betsToUpdate.length; i++) {
+        const userId = betsToUpdate[i].userId;
+        const amountToPay = betsToUpdate[i].amount * odd;
+
+        await this.create(userId, TransactionType.WINNING, amountToPay);
+
+        /**
+         * Calculate and update user balance
+         */
+
+        const balance: number = await this.calculateBalance(userId);
+
+        await this.userService.setBalance(userId, balance);
+      }
+    }
   }
 }
