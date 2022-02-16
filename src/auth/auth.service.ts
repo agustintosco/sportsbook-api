@@ -55,7 +55,7 @@ export class AuthService {
 
     if (userExists) {
       throw new HttpException(
-        'USER_IS_ALREADY_REGISTERED',
+        'User is already registered',
         HttpStatus.CONFLICT,
       );
     }
