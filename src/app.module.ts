@@ -10,6 +10,7 @@ import { BetOption } from './events/models/bet-option.entity';
 import { Sport } from './events/models/sport.entity';
 import { Bet } from './transactions/models/bet.entity';
 import { Transaction } from './transactions/models/transaction.entity';
+import { TransactionModule } from './transactions/transaction.module';
 import { User } from './users/models/user.entity';
 import { UserModule } from './users/user.module';
 
@@ -29,6 +30,7 @@ import { UserModule } from './users/user.module';
     UserModule,
     AuthModule,
     EventsModule,
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
