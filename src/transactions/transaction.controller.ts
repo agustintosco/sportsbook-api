@@ -52,7 +52,7 @@ export class TransactionController {
       {
         page,
         limit,
-        route: '/transactions',
+        route: '/transactions/all',
       },
       userId,
       transactionType,
@@ -257,7 +257,7 @@ export class TransactionController {
      */
 
     if (bet) {
-      const amountToReimburse = bet.getAmount();
+      const amountToReimburse = bet.amount;
 
       await this.transactionService.create(
         user.id,
