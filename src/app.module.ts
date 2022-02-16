@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -27,6 +28,7 @@ import { UserModule } from './users/user.module';
       synchronize: true,
       autoLoadEntities: true,
     }),
+    EventEmitterModule.forRoot(),
     UserModule,
     AuthModule,
     EventsModule,
