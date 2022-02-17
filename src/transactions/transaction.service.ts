@@ -30,10 +30,8 @@ export class TransactionService {
     options: IPaginationOptions,
     userId?: number,
     type?: TransactionType,
-    eventId?: number,
-    sportId?: number,
   ): Promise<Pagination<Transaction>> {
-    let transactions =
+    const transactions =
       this.transactionsRepository.createQueryBuilder('transactions');
 
     if (type) {
@@ -47,7 +45,7 @@ export class TransactionService {
     options: IPaginationOptions,
     userId: number,
   ): Promise<Pagination<Bet>> {
-    let bets = this.betRepository
+    const bets = this.betRepository
       .createQueryBuilder('bets')
       .where('user_id = :userId', { userId });
 
@@ -59,7 +57,7 @@ export class TransactionService {
   }
 
   async calculateBalance(userId: number) {
-    let transactions = await this.getAllByUser(userId);
+    const transactions = await this.getAllByUser(userId);
 
     let balance: number = 0;
 
@@ -87,7 +85,7 @@ export class TransactionService {
     type: TransactionType,
     amount: number,
   ): Promise<Transaction> {
-    let transaction: Transaction = await this.transactionsRepository.create({
+    const transaction: Transaction = await this.transactionsRepository.create({
       userId: userId,
       type: type,
       amount: amount,
@@ -107,7 +105,7 @@ export class TransactionService {
       amount,
     );
 
-    let bet: Bet = await this.betRepository.create({
+    const bet: Bet = await this.betRepository.create({
       userId: userId,
       amount: amount,
       status: BetStatus.ACTIVE,
@@ -148,13 +146,15 @@ export class TransactionService {
   async handleBetOptionResult(betOption: BetOption): Promise<void> {
     const bets = await this.betRepository.createQueryBuilder();
     bets.where({ betOption: betOption.id });
-    let allBets: Bet[] = await bets.getMany();
+    const allBets: Bet[] = await bets.getMany();
 
     /**
      *  Filter to get only ACTIVE bets
      */
 
-    let betsToUpdate = allBets.filter((bet) => bet.status == BetStatus.ACTIVE);
+    const betsToUpdate = allBets.filter(
+      (bet) => bet.status == BetStatus.ACTIVE,
+    );
 
     /**
      *
