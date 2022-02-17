@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { EventsModule } from './events/event.module';
+import { Event } from './events/models/event.entity';
 import { BetOption } from './events/models/bet-option.entity';
 import { Sport } from './events/models/sport.entity';
 import { Bet } from './transactions/models/bet.entity';
