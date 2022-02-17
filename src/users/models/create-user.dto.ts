@@ -7,9 +7,17 @@ import {
   MinLength,
 } from 'class-validator';
 import { PasswordMatch } from './../../auth/decorators/password-match.decorator';
+import { ApiProperty } from '@nestjs/swagger';
+
 import { Role } from './roles.enum';
 
 export class CreateUserDTO {
+  @ApiProperty({
+    name: 'password',
+    description: 'Password of the user',
+    type: String,
+    example: 'asffA423*arf',
+  })
   @IsString()
   @MinLength(8, {
     message: 'PASSWORD_MIN_LENGTH: 8',
@@ -29,12 +37,24 @@ export class CreateUserDTO {
   })
   password: string;
 
+  @ApiProperty({
+    name: 'passwordConfirmation',
+    description: 'Password confirmation of the user',
+    type: String,
+    example: 'asffA423*arf',
+  })
   @IsString()
   @PasswordMatch('password', {
     message: 'PASSWORD_CONFIRMATION_NOT_MATCHING',
   })
   passwordConfirmation: string;
 
+  @ApiProperty({
+    name: 'email',
+    description: 'Email of the user',
+    type: String,
+    example: 'agustin@greenrun.com',
+  })
   @IsEmail(
     {},
     {
@@ -43,6 +63,13 @@ export class CreateUserDTO {
   )
   email: string;
 
+  @ApiProperty({
+    name: 'role',
+    description:
+      'Role of the user. FOR THIS DEMO, IT IS ALLOWED TO CHOSE YOUR ROLE',
+    example: 0,
+    enum: Role,
+  })
   @IsIn([Role.ADMIN, Role.USER])
   role: Role;
 }
