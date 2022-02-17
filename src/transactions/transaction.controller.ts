@@ -13,6 +13,14 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
+import {
+  ApiOkResponse,
+  ApiTags,
+  ApiBearerAuth,
+  ApiParam,
+  ApiQuery,
+  ApiBadRequestResponse,
+} from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
 import { Transaction } from './models/transaction.entity';
@@ -28,6 +36,7 @@ import { Bet } from './models/bet.entity';
 import { DepositOrWithdrawalDTO } from './models/create-dep-wit.dto';
 import { BetStatus } from './models/bet-status.enum';
 
+@ApiTags('Transactions')
 @Controller('transactions')
 export class TransactionController {
   constructor(
@@ -36,6 +45,56 @@ export class TransactionController {
     private userService: UserService,
   ) {}
 
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    schema: {
+      example: {
+        items: [],
+        meta: {
+          totalItems: 0,
+          itemCount: 0,
+          itemsPerPage: 10,
+          totalPages: 0,
+          currentPage: 1,
+        },
+        links: {
+          first: '/transactions?limit=10',
+          previous: '',
+          next: '',
+          last: '',
+        },
+      },
+    },
+  })
+  @ApiQuery({
+    name: 'page',
+    type: 'number',
+    description: 'Requiered page. Default value: 1',
+    required: false,
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: 'number',
+    description: 'Number of items per page. Default value: 10',
+    required: false,
+    example: 10,
+  })
+  @ApiQuery({
+    name: 'type',
+    type: 'number',
+    description: 'Type of transaction',
+    required: false,
+    enum: TransactionType,
+    example: 'deposit',
+  })
+  @ApiQuery({
+    name: 'user',
+    type: 'number',
+    description: 'User ID',
+    required: false,
+    example: 1,
+  })
   @Roles(Role.ADMIN)
   @Get('all')
   async adminGetAll(
@@ -43,8 +102,6 @@ export class TransactionController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
     @Query('type') transactionType?: TransactionType,
     @Query('user') userId?: number,
-    @Query('event') eventId?: number,
-    @Query('sport') sportId?: number,
   ): Promise<Pagination<Transaction>> {
     limit = limit > 100 ? 100 : limit;
 
@@ -56,11 +113,42 @@ export class TransactionController {
       },
       userId,
       transactionType,
-      eventId,
-      sportId,
     );
   }
 
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    schema: {
+      example: {
+        id: 1,
+        userId: 1,
+        type: TransactionType,
+        amount: 100,
+      },
+    },
+  })
+  @ApiQuery({
+    name: 'page',
+    type: 'number',
+    description: 'Requiered page. Default value: 1',
+    required: false,
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: 'number',
+    description: 'Number of items per page. Default value: 10',
+    required: false,
+    example: 10,
+  })
+  @ApiQuery({
+    name: 'type',
+    type: 'number',
+    description: 'Type of transaction',
+    required: false,
+    enum: TransactionType,
+    example: 'deposit',
+  })
   @Get()
   @HttpCode(200)
   async getAll(
@@ -84,6 +172,14 @@ export class TransactionController {
     );
   }
 
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    schema: {
+      example: {
+        balance: 1000,
+      },
+    },
+  })
   @Get('balance')
   @HttpCode(200)
   async getBalance(@Req() req) {
@@ -95,6 +191,21 @@ export class TransactionController {
     return { balance: balance };
   }
 
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    schema: {
+      example: {
+        balance: 1000,
+      },
+    },
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'User ID',
+    type: Number,
+    required: true,
+    example: 1,
+  })
   @Roles(Role.ADMIN)
   @Get('balance/:id')
   async getBalanceByUser(@Param('id') id: number) {
@@ -103,6 +214,13 @@ export class TransactionController {
     return { balance: balance };
   }
 
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    description: 'The deposit has been successfully processed.',
+  })
+  @ApiBadRequestResponse({
+    description: 'One or more properties are missing or are wrong.',
+  })
   @Post('deposit')
   @HttpCode(201)
   async makeDeposit(@Req() req, @Body() depositDTO: DepositOrWithdrawalDTO) {
@@ -118,6 +236,14 @@ export class TransactionController {
     this.userService.setBalance(req.user.id, balance);
   }
 
+  @ApiBearerAuth()
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    description: 'The withdrawal has been successfully processed.',
+  })
+  @ApiBadRequestResponse({
+    description: 'One or more properties are missing or are wrong.',
+  })
   @Post('withdrawal')
   @HttpCode(201)
   async makeWithdrawal(
@@ -148,6 +274,39 @@ export class TransactionController {
     }
   }
 
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    schema: {
+      example: {
+        items: [],
+        meta: {
+          totalItems: 0,
+          itemCount: 0,
+          itemsPerPage: 10,
+          totalPages: 0,
+          currentPage: 1,
+        },
+        links: {
+          first: '/bets?limit=10',
+          previous: '',
+          next: '',
+          last: '',
+        },
+      },
+    },
+  })
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    required: false,
+    example: 10,
+  })
   @Get('bets')
   @HttpCode(200)
   async getAllBetsByUser(
@@ -169,6 +328,13 @@ export class TransactionController {
     );
   }
 
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    description: 'The bet has been successfully processed.',
+  })
+  @ApiBadRequestResponse({
+    description: 'One or more properties are missing or are wrong.',
+  })
   @Post('bets')
   @HttpCode(201)
   async placeBet(
@@ -222,11 +388,12 @@ export class TransactionController {
     this.userService.setBalance(user.id, balance);
   }
 
+  @ApiBearerAuth()
   @Patch('bets/cancel')
   async cancelBet(@Req() req, @Body() cancelBetDTO: CancelBetDTO) {
     const user = req.user;
 
-    let bet: Bet = await this.transactionService.getBetById(
+    const bet: Bet = await this.transactionService.getBetById(
       Number(cancelBetDTO.bet),
     );
 
