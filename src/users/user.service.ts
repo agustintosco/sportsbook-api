@@ -45,7 +45,7 @@ export class UserService {
   }
 
   async update(id: number, editUserDTO: EditUserDTO): Promise<void> {
-    const user = await this.userRepository.findOne(id);
+    const user: User = await this.userRepository.findOne(id);
 
     this.userRepository.merge(user, editUserDTO);
 
