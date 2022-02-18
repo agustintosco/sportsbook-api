@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -21,6 +22,7 @@ import {
   ApiBadRequestResponse,
   ApiOperation,
   ApiCreatedResponse,
+  ApiNoContentResponse,
 } from '@nestjs/swagger';
 
 import { EventService } from './../services/event.service';
@@ -30,6 +32,7 @@ import { Event } from './../models/event.entity';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { Role } from '../../users/models/roles.enum';
 import { Roles } from '../../auth/decorators/roles.decorator';
+import { EditEventDTO } from '../models/edit-event.dto';
 
 @ApiTags('Events & Sports')
 @Controller('events')
@@ -157,6 +160,39 @@ export class EventController {
       return await this.eventService.create(createEventDTO);
     } else {
       throw new HttpException('Sport not found', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @ApiOperation({
+    summary: 'Edit data of a given Event',
+  })
+  @ApiBearerAuth()
+  @ApiNoContentResponse({
+    description: 'The user data has been successfully updated.',
+  })
+  @ApiBadRequestResponse({
+    description: 'One or more properties are missing or are wrong.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Event ID',
+    type: Number,
+    required: true,
+    example: 1,
+  })
+  @Roles(Role.ADMIN)
+  @HttpCode(201)
+  @Patch(':id')
+  async updateEventById(
+    @Param('id') id: number,
+    @Body() editEventDTO: EditEventDTO,
+  ): Promise<void> {
+    const event: Event = await this.eventService.get(id);
+
+    if (event) {
+      await this.eventService.update(id, editEventDTO);
+    } else {
+      throw new HttpException('Event not found', HttpStatus.BAD_REQUEST);
     }
   }
 
