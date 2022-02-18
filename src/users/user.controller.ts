@@ -19,6 +19,7 @@ import {
   ApiParam,
   ApiQuery,
   ApiBadRequestResponse,
+  ApiOperation,
 } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
@@ -34,6 +35,9 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @ApiOperation({
+    summary: 'Get data of a given User',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     schema: {
@@ -95,6 +99,9 @@ export class UserController {
     );
   }
 
+  @ApiOperation({
+    summary: 'Get logged User data',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     type: User,
@@ -107,6 +114,9 @@ export class UserController {
     return await this.userService.findOne(id);
   }
 
+  @ApiOperation({
+    summary: 'Get data of a given User',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     type: User,
@@ -125,6 +135,9 @@ export class UserController {
     return await this.userService.findOne(id);
   }
 
+  @ApiOperation({
+    summary: 'Edit data of logged User',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Your user data has been successfully updated.',
@@ -141,6 +154,9 @@ export class UserController {
     await this.userService.update(req.user.id, editUserDTO);
   }
 
+  @ApiOperation({
+    summary: 'Edit data of a given User',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'The user data has been successfully updated.',
