@@ -1,4 +1,4 @@
 export enum BetResult {
-  WON,
-  LOST,
+  WON = 'won',
+  LOST = 'lost',
 }

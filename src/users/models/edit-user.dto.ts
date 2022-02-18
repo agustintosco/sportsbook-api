@@ -1,4 +1,4 @@
-import { IsEmail, IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsIn, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 import { Role } from './roles.enum';
@@ -32,7 +32,7 @@ export class EditUserDTO {
   })
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
+  @IsString()
   phone: string;
 
   @ApiProperty({
@@ -71,7 +71,7 @@ export class EditUserDTO {
   gender: string;
 
   @ApiProperty({
-    name: 'contryId',
+    name: 'countryId',
     type: String,
     example: 'ARG',
   })
@@ -109,9 +109,9 @@ export class EditUserDTO {
 export class EditUserDTOAdmin extends EditUserDTO {
   @ApiProperty({
     name: 'role',
-    type: String,
     enum: Role,
-    example: '0',
+    type: Role,
+    example: 'admin',
   })
   @ApiPropertyOptional()
   @IsOptional()
@@ -120,9 +120,9 @@ export class EditUserDTOAdmin extends EditUserDTO {
 
   @ApiProperty({
     name: 'userState',
-    type: String,
     enum: UserState,
-    example: '0',
+    type: UserState,
+    example: 'active',
   })
   @ApiPropertyOptional()
   @IsOptional()

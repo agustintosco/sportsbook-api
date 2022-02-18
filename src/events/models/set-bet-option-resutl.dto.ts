@@ -16,9 +16,9 @@ export class SetBetOptionResultDTO {
   @ApiProperty({
     name: 'result',
     description: 'Result to assign to the Bet Option',
-    type: String,
+    type: BetResult,
     enum: BetResult,
-    example: '1',
+    example: 'won',
   })
   @IsIn([BetResult.WON, BetResult.LOST])
   result: BetResult;
