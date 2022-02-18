@@ -13,6 +13,7 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiOperation,
+  ApiNoContentResponse,
 } from '@nestjs/swagger';
 
 import { BetOptionService } from '../services/bet-options.service';
@@ -60,7 +61,7 @@ export class BetOptionController {
     summary: 'Set Result for a Bet Option',
   })
   @ApiBearerAuth()
-  @ApiOkResponse({
+  @ApiNoContentResponse({
     description: 'The bet option result has been successfully updated.',
   })
   @ApiBadRequestResponse({
