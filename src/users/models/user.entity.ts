@@ -151,7 +151,7 @@ export class User {
   birthDate: Date;
 
   @ApiProperty({
-    name: 'contryId',
+    name: 'countryId',
     type: String,
     example: 'ARG',
   })
