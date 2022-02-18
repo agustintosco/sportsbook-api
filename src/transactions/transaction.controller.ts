@@ -349,6 +349,10 @@ export class TransactionController {
 
     const event = await this.eventService.get(createBetDTO.eventId);
 
+    if (!event) {
+      throw new HttpException('Event not found', HttpStatus.BAD_REQUEST);
+    }
+
     if (event.hasStarted()) {
       throw new HttpException(
         'You cannot place a bet, the event has already started',
