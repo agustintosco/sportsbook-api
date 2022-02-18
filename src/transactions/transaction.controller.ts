@@ -37,6 +37,7 @@ import { CancelBetDTO } from './models/cancel-bet.dto';
 import { Bet } from './models/bet.entity';
 import { DepositOrWithdrawalDTO } from './models/create-dep-wit.dto';
 import { BetStatus } from './models/bet-status.enum';
+import { Event } from '../events/models/event.entity';
 
 @ApiTags('Transactions')
 @Controller('transactions')
@@ -373,7 +374,7 @@ export class TransactionController {
      * Check if event has not started for the user to place a bet
      */
 
-    const event = await this.eventService.get(createBetDTO.eventId);
+    const event: Event = await this.eventService.get(createBetDTO.eventId);
 
     if (!event) {
       throw new HttpException('Event not found', HttpStatus.BAD_REQUEST);
@@ -432,6 +433,19 @@ export class TransactionController {
     const bet: Bet = await this.transactionService.getBetById(
       Number(cancelBetDTO.bet),
     );
+
+    const event: Event = await this.eventService.get(cancelBetDTO.eventId);
+
+    if (!event) {
+      throw new HttpException('Event not found', HttpStatus.BAD_REQUEST);
+    }
+
+    if (event.hasStarted()) {
+      throw new HttpException(
+        'You cannot cancel the bet, the event has already started',
+        HttpStatus.CONFLICT,
+      );
+    }
 
     if (!bet) {
       throw new HttpException('Bet not found', HttpStatus.BAD_REQUEST);
