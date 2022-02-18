@@ -1,4 +1,11 @@
-import { Controller, Post, UseGuards, Body, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Body,
+  Req,
+  HttpCode,
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiCreatedResponse,
@@ -27,6 +34,7 @@ export class AuthController {
     description: 'One or more properties are missing or are wrong.',
   })
   @Public()
+  @HttpCode(201)
   @Post('register')
   async register(@Body() user: CreateUserDTO) {
     await this.authService.checkEmail(user);
