@@ -12,6 +12,7 @@ import {
   ApiTags,
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiOperation,
 } from '@nestjs/swagger';
 
 import { BetOptionService } from '../services/bet-options.service';
@@ -28,7 +29,9 @@ export class BetOptionController {
     private readonly betOptionService: BetOptionService,
     private readonly eventService: EventService,
   ) {}
-
+  @ApiOperation({
+    summary: 'Create a Bet Option',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'The bet option has been successfully created.',
@@ -53,6 +56,9 @@ export class BetOptionController {
     await this.betOptionService.create(createBetOptionDTO);
   }
 
+  @ApiOperation({
+    summary: 'Set Result for a Bet Option',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'The bet option result has been successfully updated.',
