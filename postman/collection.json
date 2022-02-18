@@ -1,0 +1,683 @@
+{
+  "info": {
+    "_postman_id": "c261328a-5e37-47b0-8f77-2886f35c04dd",
+    "name": "GreenRun API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"asffA123*asf\",\n    \"passwordConfirmation\": \"asffA123*asf\",\n    \"email\": \"agustin1@gmail.com\",\n    \"role\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/auth/register",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "pm.globals.set(\"token\", jsonData.accessToken);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"asffA123*asf\",\n    \"email\": \"agustin1@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/auth/login",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Edit data of a given User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userState\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/users/1",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["users", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Edit data of logged User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Agustin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/users",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get logged User data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/users",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get data of a given User",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/users/all",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["users", "all"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Create an Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Boca vs River\",\n    \"sport\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/events/",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["events", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a Sport",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Basketball\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/events/sports",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["events", "sports"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all the Events",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/events",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["events"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Event by ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/events/1",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["events", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a Bet Option",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"River\",\n    \"odd\": 1.8,\n    \"event\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/events/bet-options",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["events", "bet-options"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Set Result for a Bet Option",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": 3,\n    \"result\" : \"0\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/events/bet-options",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["events", "bet-options"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Make a Deposit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": 200\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions/deposit",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions", "deposit"],
+              "query": [
+                {
+                  "key": null,
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Make a Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": 200\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions/withdrawal",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions", "withdrawal"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request logged User balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions/balance",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions", "balance"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request balance of a giver User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions/balance",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions", "balance"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get logged User transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions?type=deposit",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "deposit"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions/all",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions", "all"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get logged User Bets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions/bets",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions", "bets"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Place a Bet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"eventId\": 1,\n    \"amount\": 20,\n    \"betOption\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions/bets/",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions", "bets", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel a Bet",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"eventId\": 5,\n    \"bet\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://{{HOST}}:{{PORT}}/transactions/bets/cancel",
+              "protocol": "http",
+              "host": ["{{HOST}}"],
+              "port": "{{PORT}}",
+              "path": ["transactions", "bets", "cancel"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ]
+}
