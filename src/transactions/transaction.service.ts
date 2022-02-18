@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -59,7 +59,7 @@ export class TransactionService {
   async calculateBalance(userId: number) {
     const transactions = await this.getAllByUser(userId);
 
-    let balance: number = 0;
+    let balance = 0;
 
     for (let i = 0; i < transactions.length; i++) {
       if (
@@ -99,21 +99,31 @@ export class TransactionService {
     amount: number,
     betOption: BetOption,
   ): Promise<void> {
-    const transaction: Transaction = await this.create(
-      userId,
-      TransactionType.BET,
-      amount,
-    );
+    /**
+     *  First check if Bet Option existe before creating Transaction and Bet
+     */
 
-    const bet: Bet = await this.betRepository.create({
-      userId: userId,
-      amount: amount,
-      status: BetStatus.ACTIVE,
-      betOption: betOption,
-      transaction: transaction,
-    });
+    const betOptionExists = await this.betRepository.findOne(betOption.id);
 
-    await this.betRepository.save(bet);
+    if (betOptionExists) {
+      const transaction: Transaction = await this.create(
+        userId,
+        TransactionType.BET,
+        amount,
+      );
+
+      const bet: Bet = await this.betRepository.create({
+        userId: userId,
+        amount: amount,
+        status: BetStatus.ACTIVE,
+        betOption: betOption,
+        transaction: transaction,
+      });
+
+      await this.betRepository.save(bet);
+    } else {
+      throw new HttpException('Bet Option not found', HttpStatus.BAD_REQUEST);
+    }
   }
 
   async getBetById(id: number): Promise<Bet> {
