@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
@@ -24,7 +24,7 @@ export class BetOptionService {
   }
 
   async setBetOptionResult(betOptionResultDTO: SetBetOptionResultDTO) {
-    let betOption: BetOption = await this.betOptionRepository.findOne(
+    const betOption: BetOption = await this.betOptionRepository.findOne(
       betOptionResultDTO.id,
     );
 
@@ -34,6 +34,8 @@ export class BetOptionService {
       await this.betOptionRepository.save(betOption);
 
       this.eventEmitter.emit('bet-option.result-set', betOption);
+    } else {
+      throw new HttpException('Bet Option not found', HttpStatus.BAD_REQUEST);
     }
   }
 }
