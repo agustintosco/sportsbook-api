@@ -16,9 +16,9 @@
 
 This project is an API for a Sports Bet App where you can register & login users, create Sports, Events, make Transactions like: deposits, withdrawals & Bets.
 
-As an ADMIN user, you can create and set Bet Options related to a specific event, assigning to them the corresponding odd. This odd will be used to calculate the amount to pay if an user make a Bet on a winning Bet Option.
+As an ADMIN user, you can create and set Bet Options related to a specific event, assigning to them the corresponding odd. This odd will be used to calculate the amount to pay if a user made a Bet on a winning Bet Option.
 
-As a USER, you can make transaction as deposits, withdrawals and bet on specific Events and Bet Options and also cancel a bet (if it is not already in a SETTLED state). As well, you can edit you personal profile data.
+As a USER, you can make transactions as deposits, withdrawals and bets on specific Events and Bet Options and also cancel a bet (if it is not already in a SETTLED state). As well, you can edit you personal profile data.
 
 ---
 
@@ -34,13 +34,17 @@ git clone https://github.com/agustintosco/options-strategy-bot.git
 npm install
 ```
 
+---
+
+## Usage / Documentation
+
+Run the following command:
+
 ```bash
 npm run start
 ```
 
----
-
-## Usage / Documentation
+And that's it!
 
 For documentations about endpoints, entities, DTOs, etc; you can just hit:
 
@@ -58,7 +62,7 @@ For documentations about endpoints, entities, DTOs, etc; you can just hit:
 - Passport / JWT
 - NestJS Event Emitter Module
 - Swagger
-- bcrypt
+- bcrypt (for password hashing)
 
 This project is currently deployed at:
 
