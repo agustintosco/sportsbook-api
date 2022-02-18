@@ -20,6 +20,7 @@ import {
   ApiParam,
   ApiQuery,
   ApiBadRequestResponse,
+  ApiOperation,
 } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
@@ -45,6 +46,9 @@ export class TransactionController {
     private userService: UserService,
   ) {}
 
+  @ApiOperation({
+    summary: 'Get all transactions',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     schema: {
@@ -116,6 +120,9 @@ export class TransactionController {
     );
   }
 
+  @ApiOperation({
+    summary: 'Get logged User transactions',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     schema: {
@@ -172,6 +179,9 @@ export class TransactionController {
     );
   }
 
+  @ApiOperation({
+    summary: 'Request logged User balance',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     schema: {
@@ -191,6 +201,9 @@ export class TransactionController {
     return { balance: balance };
   }
 
+  @ApiOperation({
+    summary: 'Request balance of a giver User',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     schema: {
@@ -214,6 +227,9 @@ export class TransactionController {
     return { balance: balance };
   }
 
+  @ApiOperation({
+    summary: 'Make a Deposit',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'The deposit has been successfully processed.',
@@ -236,6 +252,9 @@ export class TransactionController {
     this.userService.setBalance(req.user.id, balance);
   }
 
+  @ApiOperation({
+    summary: 'Make a Withdrawal',
+  })
   @ApiBearerAuth()
   @ApiBearerAuth()
   @ApiOkResponse({
@@ -274,6 +293,9 @@ export class TransactionController {
     }
   }
 
+  @ApiOperation({
+    summary: 'Get logged User Bets',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     schema: {
@@ -328,6 +350,9 @@ export class TransactionController {
     );
   }
 
+  @ApiOperation({
+    summary: 'Place a Bet',
+  })
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'The bet has been successfully processed.',
@@ -392,6 +417,9 @@ export class TransactionController {
     this.userService.setBalance(user.id, balance);
   }
 
+  @ApiOperation({
+    summary: 'Cancel a Bet',
+  })
   @ApiBearerAuth()
   @Patch('bets/cancel')
   async cancelBet(@Req() req, @Body() cancelBetDTO: CancelBetDTO) {
