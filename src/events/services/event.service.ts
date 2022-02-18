@@ -9,6 +9,7 @@ import {
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
+import { EditEventDTO } from '../models/edit-event.dto';
 
 @Injectable()
 export class EventService {
@@ -31,6 +32,14 @@ export class EventService {
     const event: Event = await this.eventRepository.create(createEventDTO);
 
     await this.eventRepository.save(event);
+  }
+
+  async update(id: number, editEventDTO: EditEventDTO) {
+    const event: Event = await this.eventRepository.findOne(id);
+
+    this.eventRepository.merge(event, editEventDTO);
+
+    this.eventRepository.save(event);
   }
 
   async createSport(name: string) {
