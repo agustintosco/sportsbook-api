@@ -21,6 +21,7 @@ import {
   ApiQuery,
   ApiBadRequestResponse,
   ApiOperation,
+  ApiNoContentResponse,
 } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
@@ -420,6 +421,9 @@ export class TransactionController {
   @ApiOperation({
     summary: 'Cancel a Bet',
   })
+  @ApiNoContentResponse({
+    description: 'The bet has been successfully canceled.',
+  })
   @ApiBearerAuth()
   @Patch('bets/cancel')
   async cancelBet(@Req() req, @Body() cancelBetDTO: CancelBetDTO) {
@@ -428,6 +432,10 @@ export class TransactionController {
     const bet: Bet = await this.transactionService.getBetById(
       Number(cancelBetDTO.bet),
     );
+
+    if (!bet) {
+      throw new HttpException('Bet not found', HttpStatus.BAD_REQUEST);
+    }
 
     /**
      * Check if the bet is not already set for the user to cancel the bet
@@ -455,23 +463,18 @@ export class TransactionController {
      * Actually cancel the bet if everything is OK
      */
 
-    if (bet) {
-      const amountToReimburse = bet.amount;
+    const amountToReimburse = bet.amount;
 
-      await this.transactionService.create(
-        user.id,
-        TransactionType.REIMBURSEMENT,
-        amountToReimburse,
-      );
+    await this.transactionService.create(
+      user.id,
+      TransactionType.REIMBURSEMENT,
+      amountToReimburse,
+    );
 
-      await this.transactionService.updateBetStatus(
-        bet.id,
-        BetStatus.CANCELLED,
-      );
+    await this.transactionService.updateBetStatus(bet.id, BetStatus.CANCELLED);
 
-      const balance = await this.transactionService.calculateBalance(user.id);
+    const balance = await this.transactionService.calculateBalance(user.id);
 
-      await this.userService.setBalance(user.id, balance);
-    }
+    await this.userService.setBalance(user.id, balance);
   }
 }

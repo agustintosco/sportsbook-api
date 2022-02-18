@@ -1,8 +1,6 @@
 import { IsNumber, IsPositive } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { BetOption } from './../../events/models/bet-option.entity';
-
 export class CreateBetDTO {
   @ApiProperty({
     name: 'eventId',
@@ -30,5 +28,5 @@ export class CreateBetDTO {
     example: 2,
   })
   @IsNumber()
-  betOption: BetOption;
+  betOption: number;
 }

@@ -24,6 +24,8 @@ export class TransactionService {
     private transactionsRepository: Repository<Transaction>,
     @InjectRepository(Bet)
     private betRepository: Repository<Bet>,
+    @InjectRepository(BetOption)
+    private betOptionRepository: Repository<BetOption>,
   ) {}
 
   async getAll(
@@ -36,6 +38,12 @@ export class TransactionService {
 
     if (type) {
       transactions.andWhere(`transactions.type = :type`, { type: type });
+    }
+
+    if (userId) {
+      transactions.andWhere(`transactions.userId = :userId`, {
+        userId: userId,
+      });
     }
 
     return paginate<Transaction>(transactions, options);
@@ -97,13 +105,13 @@ export class TransactionService {
   async placeBet(
     userId: number,
     amount: number,
-    betOption: BetOption,
+    betOption: number,
   ): Promise<void> {
     /**
      *  First check if Bet Option existe before creating Transaction and Bet
      */
 
-    const betOptionExists = await this.betRepository.findOne(betOption.id);
+    const betOptionExists = await this.betOptionRepository.findOne(betOption);
 
     if (betOptionExists) {
       const transaction: Transaction = await this.create(
@@ -172,6 +180,7 @@ export class TransactionService {
 
     for (let i = 0; i < betsToUpdate.length; i++) {
       betsToUpdate[i].setStatus(BetStatus.SETTLED);
+      await this.betRepository.save(betsToUpdate[i]);
     }
 
     if (betOption.result == BetResult.WON) {

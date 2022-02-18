@@ -1,5 +1,5 @@
 export enum BetStatus {
-  ACTIVE,
-  CANCELLED,
-  SETTLED,
+  ACTIVE = 'active',
+  CANCELLED = 'cancelled',
+  SETTLED = 'settled',
 }

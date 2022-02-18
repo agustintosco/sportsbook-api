@@ -96,7 +96,7 @@ export class Bet {
 
   @ManyToOne(() => BetOption, (betOption) => betOption.bets)
   @JoinColumn({ name: 'bet_option_id' })
-  betOption: BetOption;
+  betOption: number;
 
   setStatus(status: BetStatus): void {
     this.status = status;

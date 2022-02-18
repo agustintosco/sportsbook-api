@@ -26,8 +26,8 @@ export class UserService {
     const users = this.userRepository.createQueryBuilder('users');
 
     if (userState) {
-      users.andWhere(`users.user_state = :userState`, {
-        userState: UserState[userState],
+      users.andWhere(`users.userState = :userState`, {
+        userState: userState,
       });
     }
 

@@ -9,9 +9,12 @@ import { Event } from './../events/models/event.entity';
 import { Sport } from './../events/models/sport.entity';
 import { UserService } from 'src/users/user.service';
 import { User } from 'src/users/models/user.entity';
+import { BetOption } from 'src/events/models/bet-option.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Transaction, Bet, Event, Sport, User])],
+  imports: [
+    TypeOrmModule.forFeature([Transaction, Bet, Event, Sport, User, BetOption]),
+  ],
   providers: [TransactionService, EventService, UserService],
   controllers: [TransactionController],
 })
