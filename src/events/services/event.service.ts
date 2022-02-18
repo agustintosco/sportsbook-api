@@ -22,7 +22,7 @@ export class EventService {
   }
 
   async getAll(options: IPaginationOptions): Promise<Pagination<Event>> {
-    let events = this.eventRepository.createQueryBuilder('events');
+    const events = this.eventRepository.createQueryBuilder('events');
 
     return paginate<Event>(events, options);
   }
@@ -37,5 +37,9 @@ export class EventService {
     const sport = await this.sportRepository.create({ name });
 
     await this.sportRepository.save(sport);
+  }
+
+  async getSport(id: number): Promise<Sport> {
+    return await this.sportRepository.findOne(id);
   }
 }
