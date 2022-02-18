@@ -27,7 +27,7 @@ As a USER, you can make transactions as deposits, withdrawals and bets on specif
 Clone the project and install dependencies:
 
 ```bash
-git clone https://github.com/agustintosco/options-strategy-bot.git
+git clone https://gitlab.com/agustintosco/greenrun-sports-api.git
 ```
 
 ```bash
@@ -37,6 +37,18 @@ npm install
 ---
 
 ## Usage / Documentation
+
+Create a .env file using the .env.example file:
+
+```env
+PORT=port_where_the_app_is_running_at
+
+#DATABASE
+DB_HOST=your_db_host
+DB_USERNAME=your_db_username
+DB_PASS=your_db_password
+DB_NAME=your_db_name
+```
 
 Run the following command:
 
@@ -48,11 +60,11 @@ And that's it!
 
 For documentations about endpoints, entities, DTOs, etc; you can just hit:
 
-     `HOST:PORT/documentation`
+`HOST:PORT/documentation`
 
 ---
 
-## Technologies
+## Technologies & Libraries
 
 - Typescript
 - NestJS
