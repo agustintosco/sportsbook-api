@@ -10,6 +10,7 @@ import {
 import { CreateUserDTO } from './models/create-user.dto';
 import { EditUserDTO } from './models/edit-user.dto';
 import { User } from './models/user.entity';
+import { UserState } from './models/user-state.enum';
 
 @Injectable()
 export class UserService {
@@ -20,13 +21,15 @@ export class UserService {
 
   async getAll(
     options: IPaginationOptions,
-    userState?: number,
+    userState: UserState,
   ): Promise<Pagination<User>> {
-    let users = this.userRepository.createQueryBuilder('users');
+    const users = this.userRepository.createQueryBuilder('users');
 
-    // if (userState) {
-    //   users.where('user_state = :userState', { user_state: userState });
-    // }
+    if (userState) {
+      users.andWhere(`users.user_state = :userState`, {
+        userState: UserState[userState],
+      });
+    }
 
     return paginate<User>(users, options);
   }
@@ -61,7 +64,7 @@ export class UserService {
   }
 
   async setBalance(userId: number, amount: number) {
-    let user: User = await this.userRepository.findOne(userId);
+    const user: User = await this.userRepository.findOne(userId);
 
     user.setBalance(amount);
 

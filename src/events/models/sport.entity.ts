@@ -36,6 +36,7 @@ export class Sport {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
+    select: false,
   })
   @Exclude({ toPlainOnly: true })
   createdAt: Date;
@@ -44,6 +45,7 @@ export class Sport {
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
+    select: false,
   })
   @Exclude({ toPlainOnly: true })
   updatedAt: Date;
@@ -53,6 +55,7 @@ export class Sport {
     name: 'deleted_at',
     type: 'timestamp',
     default: null,
+    select: false,
   })
   @Exclude({ toPlainOnly: true })
   deletedAt: Date;

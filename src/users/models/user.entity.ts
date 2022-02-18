@@ -10,6 +10,7 @@ import { ApiProperty, ApiHideProperty } from '@nestjs/swagger';
 
 import { Role } from './roles.enum';
 import { UserState } from './user-state.enum';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class User {
@@ -215,14 +216,18 @@ export class User {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
+    select: false,
   })
+  @Exclude({ toPlainOnly: true })
   createdAt: Date;
 
   @ApiHideProperty()
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
+    select: false,
   })
+  @Exclude({ toPlainOnly: true })
   updatedAt: Date;
 
   @ApiHideProperty()
@@ -230,7 +235,9 @@ export class User {
     name: 'deleted_at',
     type: 'timestamp',
     default: null,
+    select: false,
   })
+  @Exclude({ toPlainOnly: true })
   deletedAt: Date;
 
   public setBalance(amount: number): void {

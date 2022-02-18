@@ -81,7 +81,7 @@ export class UserController {
   async getAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
-    @Query('user_state') userState?: UserState,
+    @Query('user_state') userState: UserState,
   ): Promise<Pagination<User>> {
     limit = limit > 100 ? 100 : limit;
 

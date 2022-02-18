@@ -4,6 +4,8 @@ import {
   DefaultValuePipe,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Post,
@@ -132,7 +134,17 @@ export class EventController {
   @Post()
   @HttpCode(201)
   async create(@Body() createEventDTO: CreateEventDTO) {
-    return await this.eventService.create(createEventDTO);
+    /**
+     *  First check if Sport exists before creating Event
+     */
+
+    const sport = await this.eventService.getSport(createEventDTO.sport);
+
+    if (sport) {
+      return await this.eventService.create(createEventDTO);
+    } else {
+      throw new HttpException('Sport not found', HttpStatus.BAD_REQUEST);
+    }
   }
 
   @ApiOkResponse({ description: 'The sport has been successfully created.' })

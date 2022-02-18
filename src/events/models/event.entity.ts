@@ -60,6 +60,7 @@ export class Event {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
+    select: false,
   })
   @Exclude({ toPlainOnly: true })
   createdAt: Date;
@@ -68,6 +69,7 @@ export class Event {
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
+    select: false,
   })
   @Exclude({ toPlainOnly: true })
   updatedAt: Date;
@@ -77,6 +79,7 @@ export class Event {
     name: 'deleted_at',
     type: 'timestamp',
     default: null,
+    select: false,
   })
   @Exclude({ toPlainOnly: true })
   deletedAt: Date;
