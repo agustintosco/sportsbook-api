@@ -91,8 +91,8 @@ Agustin Tosco
 
 Where to find me:
 
-| GitHub                            | GitLab                            | Linkedin                                   | Twitter                         |
-| --------------------------------- | --------------------------------- | ------------------------------------------ | ------------------------------- |
-| [GitHub](github.com/agustintosco) | [GitLab](gitlab.com/agustintosco) | [LinkedIn](linkedin.com/in/agustin-tosco/) | [Twitter](twitter.com/agust_t_) |
+| GitHub                                    | GitLab                                    | Linkedin                                               | Twitter                                 |
+| ----------------------------------------- | ----------------------------------------- | ------------------------------------------------------ | --------------------------------------- |
+| [GitHub](https://github.com/agustintosco) | [GitLab](https://gitlab.com/agustintosco) | [LinkedIn](https://www.linkedin.com/in/agustin-tosco/) | [Twitter](https://twitter.com/agust_t_) |
 
 ---
