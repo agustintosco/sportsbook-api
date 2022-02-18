@@ -8,7 +8,7 @@ export class SetBetOptionResultDTO {
     name: 'id',
     description: 'ID of the Bet Option which its result will be set',
     type: Number,
-    example: 4,
+    example: 1,
   })
   @IsNumber()
   id: number;

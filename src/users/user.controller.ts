@@ -182,7 +182,10 @@ export class UserController {
     const user = await this.userService.findOne(id);
 
     if (user.role == Role.ADMIN) {
-      throw new HttpException('Cannot block an admin', HttpStatus.CONFLICT);
+      throw new HttpException(
+        'Cannot edit data of an ADMIN user',
+        HttpStatus.CONFLICT,
+      );
     }
 
     await this.userService.update(id, editUserDTO);

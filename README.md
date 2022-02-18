@@ -89,6 +89,7 @@ This project is currently deployed at:
 - Split Bet amount from winning amount to actually calculate the historic returns (+ / -).
 - Add filters for Bets, i.e. BetStatus (ACTIVE / CANCELED / SETTLED) and BetResult (WON / LOST).
 - Add checkup for User State when making a request (i.e.: do not allow features if User is blocked).
+- Add update & delete (softdelete) methods for Events, Sport, Bet Option entities.
 
 ---
 

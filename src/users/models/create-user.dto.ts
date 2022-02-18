@@ -67,9 +67,9 @@ export class CreateUserDTO {
     name: 'role',
     description:
       'Role of the user. FOR THIS DEMO, IT IS ALLOWED TO CHOSE YOUR ROLE',
-    example: 0,
+    example: 'admin',
     enum: Role,
-    type: Number,
+    type: Role,
   })
   @IsIn([Role.ADMIN, Role.USER])
   role: Role;

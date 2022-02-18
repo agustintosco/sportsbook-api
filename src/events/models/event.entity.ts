@@ -30,7 +30,7 @@ export class Event {
     name: 'sport',
     description: 'Sport ID related to the event',
     type: Number,
-    example: 2,
+    example: 1,
   })
   @ManyToOne(() => Sport, { eager: true })
   @JoinColumn({ name: 'sport_id' })
