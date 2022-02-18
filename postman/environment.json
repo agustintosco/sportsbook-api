@@ -1,0 +1,24 @@
+{
+  "id": "c23bb56e-aba0-4d7e-8270-8dbfd6753566",
+  "values": [
+    {
+      "key": "HOST",
+      "value": "localhost",
+      "enabled": true
+    },
+    {
+      "key": "PORT",
+      "value": "8080",
+      "enabled": true
+    },
+    {
+      "key": "token",
+      "value": "",
+      "enabled": true
+    }
+  ],
+  "name": "GreenRun Sport API Globals",
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2022-02-18T19:04:21.095Z",
+  "_postman_exported_using": "Postman/8.12.5"
+}
