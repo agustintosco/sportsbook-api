@@ -19,6 +19,7 @@ import {
   ApiQuery,
   ApiBody,
   ApiBadRequestResponse,
+  ApiOperation,
 } from '@nestjs/swagger';
 
 import { EventService } from './../services/event.service';
@@ -34,6 +35,9 @@ import { Roles } from '../../auth/decorators/roles.decorator';
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
+  @ApiOperation({
+    summary: 'Get all the Events',
+  })
   @ApiOkResponse({
     schema: {
       example: {
@@ -82,6 +86,9 @@ export class EventController {
     });
   }
 
+  @ApiOperation({
+    summary: 'Get Event by ID',
+  })
   @ApiOkResponse({
     schema: {
       example: {
@@ -125,11 +132,14 @@ export class EventController {
     return await this.eventService.get(eventId);
   }
 
+  @ApiOperation({
+    summary: 'Create an Event',
+  })
+  @ApiBearerAuth()
   @ApiOkResponse({ description: 'The event has been successfully created.' })
   @ApiBadRequestResponse({
     description: 'One or more properties are missing or are wrong.',
   })
-  @ApiBearerAuth()
   @Roles(Role.ADMIN)
   @Post()
   @HttpCode(201)
@@ -147,6 +157,10 @@ export class EventController {
     }
   }
 
+  @ApiOperation({
+    summary: 'Create a Sport',
+  })
+  @ApiBearerAuth()
   @ApiOkResponse({ description: 'The sport has been successfully created.' })
   @ApiBadRequestResponse({
     description: 'One or more properties are missing or are wrong.',
@@ -158,7 +172,6 @@ export class EventController {
       },
     },
   })
-  @ApiBearerAuth()
   @Roles(Role.ADMIN)
   @Post('sports')
   @HttpCode(201)
