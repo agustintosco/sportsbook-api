@@ -88,7 +88,7 @@ This project is currently deployed at:
 - Add automatic set of Bet Option result (WON / LOST).
 - Split Bet amount from winning amount to actually calculate the historic returns (+ / -).
 - Add filters for Bets, i.e. BetStatus (ACTIVE / CANCELED / SETTLED) and BetResult (WON / LOST).
-- Add checkup for User State when making a request.
+- Add checkup for User State when making a request (i.e.: do not allow features if User is blocked).
 
 ---
 
