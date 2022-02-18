@@ -20,6 +20,7 @@ import {
   ApiBody,
   ApiBadRequestResponse,
   ApiOperation,
+  ApiCreatedResponse,
 } from '@nestjs/swagger';
 
 import { EventService } from './../services/event.service';
@@ -136,7 +137,9 @@ export class EventController {
     summary: 'Create an Event',
   })
   @ApiBearerAuth()
-  @ApiOkResponse({ description: 'The event has been successfully created.' })
+  @ApiCreatedResponse({
+    description: 'The event has been successfully created.',
+  })
   @ApiBadRequestResponse({
     description: 'One or more properties are missing or are wrong.',
   })
@@ -161,7 +164,9 @@ export class EventController {
     summary: 'Create a Sport',
   })
   @ApiBearerAuth()
-  @ApiOkResponse({ description: 'The sport has been successfully created.' })
+  @ApiCreatedResponse({
+    description: 'The sport has been successfully created.',
+  })
   @ApiBadRequestResponse({
     description: 'One or more properties are missing or are wrong.',
   })
