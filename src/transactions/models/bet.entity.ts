@@ -66,6 +66,7 @@ export class Bet {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
+    select: false,
   })
   @Exclude({ toPlainOnly: true })
   createdAt: Date;
@@ -74,6 +75,7 @@ export class Bet {
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
+    select: false,
   })
   @Exclude({ toPlainOnly: true })
   updatedAt: Date;
@@ -82,6 +84,7 @@ export class Bet {
   @DeleteDateColumn({
     name: 'deleted_at',
     type: 'timestamp',
+    select: false,
     default: null,
   })
   @Exclude({ toPlainOnly: true })

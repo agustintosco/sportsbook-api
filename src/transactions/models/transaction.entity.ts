@@ -1,14 +1,18 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 import { Bet } from './bet.entity';
 import { TransactionType } from './transaction-type.enum';
+import { Exclude } from 'class-transformer';
 
 @Entity('transactions')
 export class Transaction {
@@ -54,6 +58,34 @@ export class Transaction {
     name: 'amount',
   })
   amount: number;
+
+  @ApiHideProperty()
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    select: false,
+  })
+  @Exclude({ toPlainOnly: true })
+  createdAt: Date;
+
+  @ApiHideProperty()
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    select: false,
+  })
+  @Exclude({ toPlainOnly: true })
+  updatedAt: Date;
+
+  @ApiHideProperty()
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    type: 'timestamp',
+    default: null,
+    select: false,
+  })
+  @Exclude({ toPlainOnly: true })
+  deletedAt: Date;
 
   @OneToOne(() => Bet, { eager: true })
   @JoinColumn({ name: 'transaction_id' })

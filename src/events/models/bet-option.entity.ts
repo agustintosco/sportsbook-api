@@ -1,16 +1,20 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 
 import { Bet } from './../../transactions/models/bet.entity';
 import { BetResult } from './bet-option-result.enum';
 import { Event } from './event.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('bet_options')
 export class BetOption {
@@ -61,6 +65,34 @@ export class BetOption {
     nullable: true,
   })
   result: BetResult;
+
+  @ApiHideProperty()
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    select: false,
+  })
+  @Exclude({ toPlainOnly: true })
+  createdAt: Date;
+
+  @ApiHideProperty()
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    select: false,
+  })
+  @Exclude({ toPlainOnly: true })
+  updatedAt: Date;
+
+  @ApiHideProperty()
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    type: 'timestamp',
+    default: null,
+    select: false,
+  })
+  @Exclude({ toPlainOnly: true })
+  deletedAt: Date;
 
   @ManyToOne(() => Event, (event) => event.betOptions)
   @JoinColumn({ name: 'event_id' })
