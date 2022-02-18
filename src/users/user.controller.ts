@@ -20,6 +20,7 @@ import {
   ApiQuery,
   ApiBadRequestResponse,
   ApiOperation,
+  ApiNoContentResponse,
 } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
@@ -36,7 +37,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({
-    summary: 'Get data of a given User',
+    summary: 'Get data of all Users',
   })
   @ApiBearerAuth()
   @ApiOkResponse({
@@ -139,7 +140,7 @@ export class UserController {
     summary: 'Edit data of logged User',
   })
   @ApiBearerAuth()
-  @ApiOkResponse({
+  @ApiNoContentResponse({
     description: 'Your user data has been successfully updated.',
   })
   @ApiBadRequestResponse({
@@ -158,7 +159,7 @@ export class UserController {
     summary: 'Edit data of a given User',
   })
   @ApiBearerAuth()
-  @ApiOkResponse({
+  @ApiNoContentResponse({
     description: 'The user data has been successfully updated.',
   })
   @ApiBadRequestResponse({
@@ -172,6 +173,7 @@ export class UserController {
     example: 1,
   })
   @Roles(Role.ADMIN)
+  @HttpCode(201)
   @Patch(':id')
   async updateUserDataById(
     @Param('id') id: number,
