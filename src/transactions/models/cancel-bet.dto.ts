@@ -8,7 +8,7 @@ export class CancelBetDTO {
     name: 'eventId',
     description: 'Event ID related to the Bet',
     type: Number,
-    example: 2,
+    example: 1,
   })
   @IsNumber()
   eventId: number;
@@ -17,7 +17,7 @@ export class CancelBetDTO {
     name: 'bet',
     description: 'Bet ID to be canceled',
     type: Number,
-    example: 2,
+    example: 1,
   })
   @IsNumber()
   bet: Bet;

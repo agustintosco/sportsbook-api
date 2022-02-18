@@ -24,7 +24,7 @@ export class CreateBetOptionDTO {
     name: 'event',
     description: 'Event ID related to the Bet Option',
     type: Number,
-    example: 3,
+    example: 1,
   })
   @IsNumber()
   event: number;

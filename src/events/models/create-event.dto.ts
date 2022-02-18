@@ -15,7 +15,7 @@ export class CreateEventDTO {
     name: 'sport',
     description: 'Sport ID related to the event',
     type: Number,
-    example: 2,
+    example: 1,
   })
   @IsNumber()
   sport: number;
