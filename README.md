@@ -78,7 +78,7 @@ For documentations about endpoints, entities, DTOs, etc; you can just hit:
 
 This project is currently deployed at:
 
-    http://ec2-54-211-142-150.compute-1.amazonaws.com:8080
+    http://ec2-54-211-142-150.compute-1.amazonaws.com:8080/documentation/
 
 ---
 
